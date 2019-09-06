@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>超市订单管理系统</h1>
+<form action="/thing/thingselect">
+    <input type="text" name="thingname">
+    <input type="submit" value="搜索">
+</form>
+<table border="1">
+    <tr>
+        <th>供应商编码</th>
+        <th>供应商名称</th>
+        <th>联系人</th>
+        <th>联系人电话</th>
+        <th>传真</th>
+        <th>创建时间</th>
+        <th>操作</th>
+    </tr>
+
+    <tr th:each="thing:${list}">
+        <td th:text="${thing.thingcode }"></td>
+        <td th:text="${thing.thingname }"></td>
+        <td th:text="${thing.personname }"></td>
+        <td th:text="${thing.tel }"></td>
+        <td th:text="${thing.fax }"></td>
+        <td th:text="${#dates.format(thing.makedate,'yyyy-MM-dd')}"></td>
+        <td>
+        <a th:href="@{/thing/thingedit/}+${thing.thingcode}">修改</a>
+        <a th:href="@{/thing/thingdelete/}+${thing.thingcode}">删除</a>
+    </td>
+    </tr>
+
+
+</table>
+<div>
+    <p>当前 <span th:text="${pageInfo.pageNum}"></span> 页,总 <span th:text="${pageInfo.pages}"></span> 页,共 <span th:text="${pageInfo.total}"></span> 条记录</p>
+    <a th:href="@{/getAllThing}">首页</a>
+    <a th:href="@{/getAllThing(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a>
+    <a th:href="@{/getAllThing(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a>
+    <a th:href="@{/getAllThing(pageNum=${pageInfo.pages})}">尾页</a>
+</div>
+<a th:href="@{/thing/insertPage}">添加商品</a>
+
+
+</body>
+</html>
